@@ -9,15 +9,17 @@ void makeWord(char word[30]){
     int counter = 0;
     while(curr != ' ' && curr != '\t' && curr != '\n' && counter < 30){
         scanf("%c" , &curr);
+        word[counter] = curr;
         counter++;
     }
 }
 
-void makeText(char word[1024]){
+void makeText(char text[1024]){
     char curr;
     int counter = 0;
     while(curr != '~' && counter < 1024){
         scanf("%c" , &curr);
+        text[counter] = curr;
         counter++;
     }
 }
