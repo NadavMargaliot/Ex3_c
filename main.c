@@ -3,7 +3,21 @@
 #define WORD 30
 #define TXT 1024
 int main(){
-     char word[WORD];
+
+
+    char c = 'g';
+    int res;
+    if(c >= 97 && c <= 122){
+        res =  (c - 'a');
+    }else if(c >= 65 && c <= 90){
+        res =  (c - 'A');
+    }else{
+        res = 0;
+    }
+
+    printf("%d\n" , res);
+
+    char word[WORD];
     char text[TXT];
     printf("Please enter a word:");
     makeWord(word);
@@ -36,3 +50,18 @@ void makeText(char text[1024]){
         counter++;
     }
 }
+int gematriaValue(char c){
+    if(c >= 97 && c <= 122){
+        return (c - 'a');
+    }else if(c >= 65 && c <= 90){
+        return (c - 'A');
+    }
+    return 0;
+}
+int gematriaString(char word[] ,char text[]){
+    
+
+}
+
+// Gematria Sequences: a-bc,d~dbca~dcba
+// a-bc,dbca-zwxyzabzyxw0dcba~
