@@ -7,6 +7,7 @@ void makeWord(char[WORD]);
 void makeText(char[TXT]);
 int gematriaValue(char c);
 int gematriaFromWord(char word[]);
+char switchAtBash(char c);
 void gematria(char word[] , char text[]);
 char gematria2(char word[] , char text[]);
 
