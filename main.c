@@ -5,6 +5,7 @@
 #define TXT 1024
 
 
+
 void makeWord(char word[30]){
     char curr;
     int counter = 0;
@@ -182,6 +183,66 @@ void atbash(char word[], char text[]) {
     result[strlen(result) - 1] = '\0';
     printf("Atbash Sequences: %s\n", result);
 }
+int isAnagram(char* a, char* b) {
+    int checkAnagram[177] = {0};
+    if(strlen(a) != strlen(b)){
+        return 0;
+    }
+    for(int i = 0 ; i < strlen(a); i++){
+        checkAnagram[a[i]] += 1;
+        checkAnagram[b[i]] -= 1;
+    }
+    for(int i = 0; i < 177; i++){
+        if(checkAnagram[i] != 0){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+// void removeSpaces(char *str){
+//     int count = 0;
+//     for (int i = 0; str[i]; i++)
+//         if (str[i] != ' ')
+//             str[count++] = str[i];
+//     str[count] = '\0';
+// }
+
+
+
+void anagram(char word[] , char text[]){
+    word[strlen(word) - 1] = '\0';
+    char result[TXT] = "";
+    char *r = result;
+    char *w = word;
+    char *t = text;
+    int sizeText = strlen(text);
+    int sizeWord = strlen(word);
+    char possibleWord[sizeWord];
+    for(int i = 0; i < sizeText; i++){
+        int count = 0;
+        for(int j = i; j < sizeText; j++){
+            if(*(t+i) == ' '){
+                break;
+            }
+                if(*(t + j) != ' '){
+                    possibleWord[count] = *(t+j);
+                    count++;
+                }
+                if(count == sizeWord){
+                    if(isAnagram(w , possibleWord) == 1){
+                        strcat(result , possibleWord);
+                        r += sizeWord;
+                        *r = '~';
+                        r++;
+                    }
+                    break;
+                }
+        }
+    }
+    result[strlen(result) - 1] = '\0';
+    printf("Anagram Sequences: %s" , result);
+}
 
 
 int main() {
@@ -189,11 +250,10 @@ int main() {
     char text[TXT];
     makeWord(word);
     makeText(text);
+    char tmpWord[strlen(word)];
+    strcpy(tmpWord,word);
     gematria(word,text);
     atbash(word,text);
-    
-     
-
-
+    anagram(tmpWord,text);
     return 0;
 }
