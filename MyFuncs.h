@@ -5,5 +5,9 @@
 #define TXT 1024
 void makeWord(char[WORD]);
 void makeText(char[TXT]);
+int gematriaValue(char c);
+int gematriaFromWord(char word[]);
+void gematria(char word[] , char text[]);
+char gematria2(char word[] , char text[]);
 
 #endif

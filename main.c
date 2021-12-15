@@ -1,35 +1,9 @@
 #include <stdio.h>
 #include "MyFuncs.h"
+#include <string.h>
 #define WORD 30
 #define TXT 1024
-int main(){
 
-
-    char c = 'g';
-    int res;
-    if(c >= 97 && c <= 122){
-        res =  (c - 'a');
-    }else if(c >= 65 && c <= 90){
-        res =  (c - 'A');
-    }else{
-        res = 0;
-    }
-
-    printf("%d\n" , res);
-
-    char word[WORD];
-    char text[TXT];
-    printf("Please enter a word:");
-    makeWord(word);
-    printf("%s",word);
-
-    printf("Please enter a text:");
-    makeText(text);
-    printf("%s",text);
-
-    return 0;
-
-}
 
 void makeWord(char word[30]){
     char curr;
@@ -50,18 +24,74 @@ void makeText(char text[1024]){
         counter++;
     }
 }
+
 int gematriaValue(char c){
     if(c >= 97 && c <= 122){
-        return (c - 'a');
+        return (c - 'a') + 1;
     }else if(c >= 65 && c <= 90){
-        return (c - 'A');
+        return (c - 'A') + 1;
     }
     return 0;
 }
-int gematriaString(char word[] ,char text[]){
-    
-
+int gematriaFromWord(char word[]){
+    int result = 0;
+    for(int i = 0; i < strlen(word); i++){
+        result += gematriaValue(word[i]);
+    }
+    return result;
 }
+
 
 // Gematria Sequences: a-bc,d~dbca~dcba
 // a-bc,dbca-zwxyzabzyxw0dcba~
+
+
+
+
+
+void gematria(char word[] , char text[]){
+    char res[TXT];
+    char *w = word;
+    char *t = text;
+    char *r = res;
+    int maybeEven = 0;
+    int count = 0;
+    int expectedWordGematria = gematriaFromWord(word);
+    for(int i = 0; i < strlen(text); i++){
+        for(int j = i; j < strlen(text); j++){
+            if(maybeEven < expectedWordGematria){
+                maybeEven += gematriaValue(*(t + j));
+                if (maybeEven == 0){
+                    break;
+                }
+                if(maybeEven == expectedWordGematria){
+                    for(int k = i; k <= j ; k++){
+                        *r = *(t+k);
+                        r++;
+                    }
+                        *r = '~';
+                        r++;
+                        maybeEven = 0;
+                        break;
+                }
+            }else{
+                maybeEven = 0;
+                break;
+            }
+        }
+        maybeEven = 0;
+    }
+    res[strlen(res) - 1] = '\0';
+    printf("Gematria Sequences: %s\n" , res);
+}
+
+int main() {
+    char word[WORD];
+    char text[TXT];
+    // printf("Please enter a word:");
+    makeWord(word);
+    // printf("Please enter a text:");
+    makeText(text);
+    gematria(word,text);
+    return 0;
+}
