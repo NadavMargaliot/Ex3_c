@@ -73,6 +73,9 @@ void gematria(char word[] , char text[]){
         maybeEven = 0;
     }
     res[strlen(res) - 1] = '\0';
+    if(res[strlen(res) - 1] == '~'){
+        res[strlen(res) - 1] = '\0';
+    }
     printf("Gematria Sequences: %s\n" , res);
 }
 
