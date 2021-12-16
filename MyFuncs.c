@@ -4,7 +4,7 @@
 #define TXT 1024
 #define WORD 30
 
-
+//--initialize the word
 void makeWord(char word[WORD]){
     char curr;
     int counter = 0;
@@ -14,7 +14,7 @@ void makeWord(char word[WORD]){
         counter++;
     }
 }
-
+//--initialize the text
 void makeText(char text[TXT]){
     char curr;
     int counter = 0;
@@ -24,7 +24,7 @@ void makeText(char text[TXT]){
         counter++;
     }
 }
-
+//--Q1
 int gematriaValue(char c){
     if(c >= 97 && c <= 122){
         return (c - 'a') + 1;
@@ -33,6 +33,7 @@ int gematriaValue(char c){
     }
     return 0;
 }
+
 int gematriaFromWord(char word[]){
     int result = 0;
     for(int i = 0; i < strlen(word); i++){
@@ -75,7 +76,7 @@ void gematria(char word[] , char text[]){
     printf("Gematria Sequences: %s\n" , res);
 }
 
-
+//--Q2
 void makeAtbashFromWord(char arr[]){
     char *ptr=arr;
     char curr;
@@ -92,14 +93,12 @@ void makeAtbashFromWord(char arr[]){
 
 void reverseStr(char word[]) {
     int n = strlen(word);
-
     for (int i = 0; i < n / 2; i++) {
         char ch = word[i];
         word[i] = word[n - i - 1];
         word[n - i - 1] = ch;
     }
 }
-
 
 void atbash(char word[], char text[]) {
     word[strlen(word) - 1] = '\0';
@@ -116,7 +115,6 @@ void atbash(char word[], char text[]) {
     char *rev = reverseAtbshWord;
     char *t = text;
     char *pr = result;
-
     for (int i = 0; i < strlen(text); i++) {
         for (int j = i; j < strlen(text); j++) {
             if ((*(t + j) != *(w)) && (*(t + j) != *(rev))) {
@@ -163,14 +161,17 @@ void atbash(char word[], char text[]) {
     result[strlen(result) - 1] = '\0';
     printf("Atbash Sequences: %s\n", result);
 }
+
+//--Q3
 int isAnagram(char* a, char* b) {
     int checkAnagram[177] = {0};
-    if(strlen(a) != strlen(b)){
-        return 0;
-    }
-    for(int i = 0 ; i < strlen(a); i++){
-        checkAnagram[a[i]] += 1;
-        checkAnagram[b[i]] -= 1;
+    for(int i = 0 ; a[i] != '\0'; i++){
+        if(a[i] != ' '){
+            checkAnagram[(int)*(a+i)] += 1;
+        }
+        if(b[i] != ' ' && strlen(b)>i){
+            checkAnagram[(int)*(b+i)] -= 1;
+        }
     }
     for(int i = 0; i < 177; i++){
         if(checkAnagram[i] != 0){
@@ -180,38 +181,39 @@ int isAnagram(char* a, char* b) {
     return 1;
 }
 
-void anagram(char word[] , char text[]){
-    word[strlen(word) - 1] = '\0';
-    char result[TXT] = "";
-    char *r = result;
-    char *w = word;
-    char *t = text;
-    int sizeText = strlen(text);
-    int sizeWord = strlen(word);
-    char possibleWord[sizeWord];
-    for(int i = 0; i < sizeText; i++){
-        int count = 0;
-        for(int j = i; j < sizeText; j++){
-            if(*(t+i) == ' '){
-                break;
-            }
-                if(*(t + j) != ' '){
-                    possibleWord[count] = *(t+j);
-                    count++;
-                }
-                if(count == sizeWord){
-                    if(isAnagram(w , possibleWord) == 1){
-                        strcat(result , possibleWord);
-                        r += sizeWord;
-                        *r = '~';
-                        r++;
-                    }
-                    break;
-                }
+void anagram(char word[], char text[]){
+    word[strlen(word)-1] = '\0';
+    char *t, *tf, *w;
+    t = text; 
+    char ans[TXT] = "";
+    while(*t){
+        char helper[TXT] = "";
+        int counter = 0; 
+        tf = t;
+        w = word;
+        while(counter < strlen(w)){
+        if(*tf == 32 && !strlen(helper)){
+            break;
         }
+        else if (*tf != 32){
+            counter ++;
+        }
+        strncat(helper, tf,1);
+        tf++;
+
+        if(strlen(w) == counter){
+            if(isAnagram(helper, w)){
+                strcat(ans, helper);
+                ans[strlen(ans)] = '~';
+                counter = 0; 
+            }
+        }
+        }
+        t++;
     }
-    result[strlen(result) - 1] = '\0';
-    printf("Anagram Sequences: %s" , result);
+    ans[strlen(ans)-1] = '\0'; 
+    printf("Anagram Sequences: %s", ans);
 }
+
 
 
